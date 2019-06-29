@@ -1,11 +1,22 @@
 package com.sujumayas.clientsmicroservice.service;
 
 import com.sujumayas.clientsmicroservice.model.Client;
+import com.sujumayas.clientsmicroservice.repository.ClientRepository;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import io.micrometer.core.ipc.http.HttpSender.Request;
+import net.bytebuddy.implementation.bytecode.Throw;
 
 /**
  * Client Service
@@ -13,11 +24,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientService {
 
+    @Autowired
+    private ClientRepository clientRepository;
+
     /** TODO : All this should be in DB later :D */
-    private List<Client> clients = new ArrayList<>(Arrays.asList(
-            new Client("123", "Esen", "Espinosa", "32", "24/10/1986"),
-            new Client("124", "Mariana", "Hernandez", "32", "15/01/1987")
-    ));
     private Double clientsAverageAge;
     private Number clientListSize = 2;
     private List<String> clientAges;
@@ -29,6 +39,8 @@ public class ClientService {
      * @return List<Client>
      */
     public List<Client> getAllClients(){
+        List<Client> clients = new ArrayList<>();        
+        clientRepository.findAll().forEach(clients::add); //Thank you method references in lamda expressions
         return clients;
     }
     
@@ -37,20 +49,26 @@ public class ClientService {
      * 
      * @return Client
      */
-    public Client getClient(String id){
-        return clients.stream().filter(client -> client.getId().equals(id)).findFirst().get();
+    public Client getClient(Long id){
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isPresent()) {
+            Client theClient = client.get();
+            return theClient;
+        } else {
+            return null;
+        }
     }
     
     /**
      * Create Client
      * 
-     * TODO : Set requeriments on the attributes we want to be required and check
-     * for unique ids
      * 
      * @return void
      */
     public void createClient(Client client){
-        clients.add(client);
+        String aproxDeathDate = seTAproxDeathDate(client.getBirthDate(), 75);
+        client.setAproxDeathDate(aproxDeathDate);
+        clientRepository.save(client);
     }
     
     /**
@@ -60,14 +78,10 @@ public class ClientService {
      * 
      * @return void
      */
-    public void updateClient(Client client, String id) {
-        for (int i = 0; i < clients.size(); i++) {
-            Client c = clients.get(i);
-            if(c.getId().equals(id)){
-                clients.set(i, client);
-                return;
-            }
-        }
+    public void updateClient(Client client, Long id) {
+        String aproxDeathDate = seTAproxDeathDate(client.getBirthDate(), 75);
+        client.setAproxDeathDate(aproxDeathDate);
+        clientRepository.save(client);
     }
     
     /**
@@ -75,8 +89,15 @@ public class ClientService {
      * 
      * @return void
      */
-    public void deleteClient(String id) {
-        clients.removeIf(client-> client.getId().equals(id)); 
+    public void deleteClient(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if(client.isPresent()){
+            Client theClient = client.get();
+            clientRepository.delete(theClient); // Id needs to be long for this to work in latest version.
+        }else{
+            // throw new EntityNotFoundException(id); // TODO: Learn new ways of error handling in Java
+        }
+        
     }
     
 
@@ -88,6 +109,36 @@ public class ClientService {
      * ---------------------------*
      ******************************
     */
+
+    /**
+     * Set Aprox Death Date for this human.
+     * 
+     * Every Human must die. Machines will prevail.
+     * 
+     * TODO: Should refactor this to static class of Utils and call it from there.
+     * TODO: (2) This is just doing the work. But Clients age should be checked every Year against currentTime, updated and then update the life xpectancy accordingly. 
+     * 
+     * 
+     * @param birthDateString
+     * @param yearsToLive
+     * @param age
+     * @return
+     */
+    private String seTAproxDeathDate(String birthDateString, Integer yearsToLive) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+
+        LocalDate dateTime = LocalDate.parse(birthDateString, formatter);
+
+        dateTime = dateTime.plusYears(yearsToLive);
+
+        String aproxDeathDate = dateTime.format(formatter);
+
+        return aproxDeathDate;
+
+    }
+    
+    
+    
     /**
      * Get Clients Average Age
      * 
@@ -110,6 +161,8 @@ public class ClientService {
      * @return
      */
     public void updateClientsAverageAge(){
+        List<Client> clients = new ArrayList<>();
+        clientRepository.findAll().forEach(clients::add);
         clientListSize = clients.size(); 
         double newAgeSum = clients.stream().mapToDouble(i -> Double.parseDouble(i.getAge())).sum(); /** TODO: Learn more about java 8 lamdas <3 */
         clientsAverageAge = newAgeSum / (double) clientListSize;
@@ -120,11 +173,11 @@ public class ClientService {
      * 
      * @return
      */
-    public void extractAges() {
-        clientAges = new ArrayList<>();
-        for(int i = 0; i < clients.size(); i++){
-            Client c = clients.get(i);
-            clientAges.add(c.getAge());
-        }
-    }
+    // public void extractAges() {
+    //     clientAges = new ArrayList<>();
+    //     for(int i = 0; i < clients.size(); i++){
+    //         Client c = clients.get(i);
+    //         clientAges.add(c.getAge());
+    //     }
+    // }
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.micrometer.core.ipc.http.HttpSender.Request;
+
 /**
  * ClientController
  */
@@ -42,7 +44,7 @@ public class ClientController {
      * @return Client toJSON
      */
     @RequestMapping("clients/{id}")
-    public Client getClient(@PathVariable String id){
+    public Client getClient(@PathVariable Long id){
         return clientService.getClient(id);
     }
 
@@ -80,7 +82,7 @@ public class ClientController {
      * @return void
      */
     @RequestMapping(method = RequestMethod.PUT, value = "clients/update/{id}")
-    public void updateClient(@RequestBody Client client, @PathVariable String id) {
+    public void updateClient(@RequestBody Client client, @PathVariable Long id) {
         clientService.updateClient(client, id);
     }
 
@@ -92,7 +94,7 @@ public class ClientController {
      * @return void
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "clients/delete/{id}")
-    public void deleteClient(@PathVariable String id) {
+    public void deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
     }
    
