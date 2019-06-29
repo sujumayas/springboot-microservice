@@ -2,19 +2,19 @@
 
 ## TODO: 
 
-    - Microservicio desarrollado en JAVA Spring boot​
-    - API Rest documentada en Swagger​
-    - Deployado en AWS o algún CLOUD + código subido en GITHUB​
+- Microservicio desarrollado en JAVA Spring boot​ 
+- API Rest documentada en Swagger​
+- Deployado en AWS o algún CLOUD + código subido en GITHUB​
     
-    - Endpoint de Entrada POST /api/clients/create
-        Name
-        LastName
-        Age
-        BirthDate
+- Endpoint de Entrada POST /api/clients/create **[Done]**
+    - Name
+    - LastName
+    - Age
+    - BirthDate
+
+- Endpoint de salida GET /api/clients/kpi 
+    - Promedio edad entre todos los clientes​
+    - Desviación estándar entre las edades de todos los clientes​
     
-    - Endpoint de salida GET /api/clients/kpi
-         Promedio edad entre todos los clientes​
-         Desviación estándar entre las edades de todos los clientes​
-    
-    - Endpoint de salida GET /api/clients/list
-        Lista de personas con todos los datos + fecha probable de muerte de cada una​
+- Endpoint de salida GET /api/clients/list
+    - Lista de personas con todos los datos + fecha probable de muerte de cada una​

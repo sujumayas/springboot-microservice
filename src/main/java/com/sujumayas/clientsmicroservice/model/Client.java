@@ -1,6 +1,6 @@
-package com.sujumayas.clientsmicroservice.client;
+package com.sujumayas.clientsmicroservice.model;
 
-import java.util.UUID;
+import java.util.UUID; /** To be used when we refactor UUID ids to be auto-generated and unique */
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

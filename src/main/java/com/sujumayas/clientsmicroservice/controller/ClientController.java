@@ -1,7 +1,7 @@
-package com.sujumayas.clientsmicroservice.client;
+package com.sujumayas.clientsmicroservice.controller;
 
-import com.sujumayas.clientsmicroservice.client.Client;
-import com.sujumayas.clientsmicroservice.client.ClientService;
+import com.sujumayas.clientsmicroservice.model.Client;
+import com.sujumayas.clientsmicroservice.service.ClientService;
 
 import java.util.List;
 
@@ -16,20 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
  * ClientController
  */
 @RestController
-@RequestMapping("/api/client")
+@RequestMapping("/api/v1")
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
-
-    /**
-     * Simple test of the API
-     * @return
-     */
-    @RequestMapping("/hi")
-    public String sayHi(){
-        return "hi";
-    }
 
     /**
      * Get All Clients
@@ -38,7 +29,7 @@ public class ClientController {
      * 
      * @return List<Client> toJSON
      */
-    @RequestMapping("/list")
+    @RequestMapping("clients/list")
     public List<Client> getAllClients(){
         return clientService.getAllClients(); 
     }
@@ -50,7 +41,7 @@ public class ClientController {
      * 
      * @return Client toJSON
      */
-    @RequestMapping("/{id}")
+    @RequestMapping("clients/{id}")
     public Client getClient(@PathVariable String id){
         return clientService.getClient(id);
     }
@@ -62,7 +53,7 @@ public class ClientController {
      * 
      * @return String 
      */
-    @RequestMapping("/kpis")
+    @RequestMapping("clients/kpis")
     public String getKPIs() {
         Number average = clientService.getClientsAverageAge();
         Number standardDeviation = 0;
@@ -76,7 +67,7 @@ public class ClientController {
      * 
      * @return void
      */
-    @RequestMapping(method=RequestMethod.POST, value="/create")
+    @RequestMapping(method=RequestMethod.POST, value="clients/create")
     public void createClient(@RequestBody Client client){
         clientService.createClient(client);
     }
@@ -88,7 +79,7 @@ public class ClientController {
      * 
      * @return void
      */
-    @RequestMapping(method = RequestMethod.PUT, value = "/update/{id}")
+    @RequestMapping(method = RequestMethod.PUT, value = "clients/update/{id}")
     public void updateClient(@RequestBody Client client, @PathVariable String id) {
         clientService.updateClient(client, id);
     }
@@ -100,7 +91,7 @@ public class ClientController {
      * 
      * @return void
      */
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "clients/delete/{id}")
     public void deleteClient(@PathVariable String id) {
         clientService.deleteClient(id);
     }

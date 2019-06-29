@@ -1,5 +1,6 @@
-package com.sujumayas.clientsmicroservice.client;
+package com.sujumayas.clientsmicroservice.service;
 
+import com.sujumayas.clientsmicroservice.model.Client;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
