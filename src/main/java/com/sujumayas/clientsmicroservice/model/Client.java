@@ -20,7 +20,8 @@ public class Client {
     
     private String name;
     private String lastName;
-    private String age;
+    private String age; // Should be birthDate dependant, not user-editable, we are gonna asume users
+                        // are honest in their math
     private String birthDate;
     private Integer LIFE_EXPECTANCY = 75;
     private String aproxDeathDate;
@@ -34,7 +35,7 @@ public class Client {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        this.age = age; // Client Age should not be user-editable if they edit their birthDate, that should work, right?
+        this.age = age; // Should be birthDate dependant, not user-editable, we are gonna asume users are honest in their math
         this.birthDate = birthDate;
         this.aproxDeathDate = this.seTAproxDeathDate(birthDate, this.LIFE_EXPECTANCY);
     }

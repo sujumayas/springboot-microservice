@@ -167,17 +167,5 @@ public class ClientService {
         double newAgeSum = clients.stream().mapToDouble(i -> Double.parseDouble(i.getAge())).sum(); /** TODO: Learn more about java 8 lamdas <3 */
         clientsAverageAge = newAgeSum / (double) clientListSize;
     }
-    
-    /**
-     * Extract Ages into Array
-     * 
-     * @return
-     */
-    // public void extractAges() {
-    //     clientAges = new ArrayList<>();
-    //     for(int i = 0; i < clients.size(); i++){
-    //         Client c = clients.get(i);
-    //         clientAges.add(c.getAge());
-    //     }
-    // }
+
 }
