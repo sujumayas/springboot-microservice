@@ -41,6 +41,7 @@ pipeline {
                     } else {
                         bat(/"${mvnHome}\bin\mvn" verify -Dunit-tests.skip=true/)
                     }
+                }
             }
             post {
                 always {
