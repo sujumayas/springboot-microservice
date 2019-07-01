@@ -3,13 +3,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh '${Maven3}/bin/mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
             steps {
                 // This will test the applicatin with maven test.
-                sh 'mvn test'
+                sh '${Maven3}/bin/mvn test'
             }
             post {
                 always {
