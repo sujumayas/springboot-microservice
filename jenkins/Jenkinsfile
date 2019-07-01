@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Build docker'){
             steps{
-                sh './jenkins/scripts/build_docker.sh "./docker/Dockerfile"'
+                sh './jenkins/scripts/build_docker.sh "./Dockerfile"'
             }
         }
         // stage('Deliver') {
