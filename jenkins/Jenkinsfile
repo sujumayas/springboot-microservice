@@ -3,6 +3,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh 'echo "this is working..."'
+                sh 'whoami'
                 sh './jenkins/scripts/build.sh'
             }
         }
