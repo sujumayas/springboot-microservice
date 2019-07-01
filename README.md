@@ -18,7 +18,7 @@ If you have Java and Maven installed...
 Just: 
 
 ```bash
-$ mvnw spring-boot:run
+$ mvn spring-boot:run
 ```
 
 That will run the server on the http://localhost:8080/ (*you can change the port in the `/src/main/resources/application.properties` Groovy file)
