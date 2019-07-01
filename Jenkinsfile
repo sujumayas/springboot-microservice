@@ -18,16 +18,13 @@ pipeline {
             }
         }
         stage('Build & Deploy to Docker Intance'){
-            def image_name = 'springboot-deploy'
-            def version = '0.0.1' //this should be automatic on later builds.
-            def username = 'sujumayas'
             steps{
                 // create the build 
-                sh 'docker build -t ${image_name} .'
+                sh 'docker build -t springboot-deploy .'
                 sh 'docker login'
-                sh 'docker tag ${image_name} ${username}/${image_name}:v.${version}'
-                sh 'docker push ${username}/${image_name}:v.${version}'
-                sh 'docker run -d -p 4000:80 ${image_name}'
+                sh 'docker tag springboot-deploy sujumayas/springboot-deploy:v.0.0.1'
+                sh 'docker push sujumayas/springboot-deploy:v.0.0.1'
+                sh 'docker run -d -p 4000:80 springboot-deploy'
             }
         }
     }
