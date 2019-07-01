@@ -41,6 +41,7 @@ You can review all api routes in swagger, but here are the main ones:
 
 **FALTA**
 Add additional notes about how to deploy this on a live system
+`docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 jenkins/jenkins:lts`
 **FALTA**
 
 ## Built With
