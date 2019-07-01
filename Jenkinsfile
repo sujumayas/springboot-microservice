@@ -12,7 +12,7 @@ pipeline {
                     echo 'Pulling...' + env.BRANCH_NAME
                     def mvnHome = tool 'Maven 3.5.2'
                     if (isUnix()) {
-                        def targetVersion = getDevVersion()
+                        def targetVersion = "v0.0.1"
                         print 'target build version...'
                         print targetVersion
                         sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true -Dbuild.number=${targetVersion} clean package"
