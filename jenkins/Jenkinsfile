@@ -17,10 +17,19 @@ pipeline {
                 sh './jenkins/scripts/build.sh'
             }
         }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
+        stage('Build docker'){
+            steps{
+                def docker_file = './docker/Dockerfile'
+                sh (
+                    './jenkins/scripts/build_docker.sh ' + docker_file, 
+                    returnStdout:true
+                )
             }
         }
+        // stage('Deliver') {
+        //     steps {
+        //         sh './jenkins/scripts/deliver.sh'
+        //     }
+        // }
     }
 }
