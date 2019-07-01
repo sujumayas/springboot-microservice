@@ -1,19 +1,22 @@
 pipeline {
     agent any
-    tools{
-        mvnHome 'Maven 3.5.2'
-    }
     // global env variables
     stages {
         stage('Build') {
             steps{
                 // Run the maven build
-                sh "'${mvnHome}/bin/mvn' clean spring-boot:run"
+                script {
+                    def mvnHome = tool 'Maven 3.5.2'
+                    sh "'${mvnHome}/bin/mvn' clean spring-boot:run"
+                }
             }
         }
         stage('Test') {
             steps {
-                sh "'${mvnHome}/bin/mvn' test"
+                script {
+                    def mvnHome = tool 'Maven 3.5.2'
+                    sh "'${mvnHome}/bin/mvn' test"
+                }
             }
             post {
                 always {
