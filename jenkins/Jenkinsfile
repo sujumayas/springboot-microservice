@@ -1,13 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
-            steps {
-                sh 'echo "this is working..."'
-                sh 'whoami'
-                sh './jenkins/scripts/build.sh'
-            }
-        }
+        
         stage('Test') {
             steps {
                 sh './jenkins/scripts/test.sh'
@@ -16,6 +10,11 @@ pipeline {
                 always {
                     junit 'target/surefire-reports/*.xml'
                 }
+            }
+        }
+        stage('Build') {
+            steps {
+                sh './jenkins/scripts/build.sh'
             }
         }
         stage('Deliver') {

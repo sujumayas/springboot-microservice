@@ -1,4 +1,4 @@
-package com.sujumayas.clientservice;
+package com.sujumayas.clientsmicroservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,10 +7,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ClientServiceApplicationTests {
+public class SomeTest {
 
 	@Test
 	public void contextLoads() {
+		
 	}
 
 }

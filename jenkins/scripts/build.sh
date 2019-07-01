@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo 'The following Maven command builds the application to test locally'
+echo 'The following Maven commands builds the application to test locally'
 set -x
-mvn spring-boot:run
+mvn clean package -DskipTests
 set +x
