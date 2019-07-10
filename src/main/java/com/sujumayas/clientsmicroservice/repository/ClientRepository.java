@@ -11,5 +11,5 @@ import com.sujumayas.clientsmicroservice.model.Client;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-
+    
 }

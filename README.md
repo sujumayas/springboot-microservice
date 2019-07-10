@@ -21,7 +21,7 @@ Just:
 $ mvn spring-boot:run
 ```
 
-That will run the server on the http://localhost:8080/ (*you can change the port in the `/src/main/resources/application.properties` Groovy file)
+That will run the server on the http://localhost:9001/ (*you can change the port in the `/src/main/resources/application.properties` Groovy file)
 
 ## Running the tests
 
@@ -67,7 +67,7 @@ No contributing allowed for this project.
 ## TODO BackEnd SpringBoot: 
 
 - *[...doing]* Microservicio desarrollado en JAVA Spring boot​ 
-    - API Rest documentada en Swagger​
+    - API Rest documentada en Swagger​ (https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg)
     - Deployado en AWS o algún CLOUD + código subido en GITHUB​
     
     - **[DONE]** Endpoint de Entrada POST /api/v1/clients/create 

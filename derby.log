@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Mon Jul 01 12:05:58 PET 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-016b-ae80-145e-00000f99bfa8 
-on database directory memory:/Users/pickle_rick/Documents/Coding/www/clientlist/testdb with class loader sun.misc.Launcher$AppClassLoader@75b84c92 
+Tue Jul 09 23:55:12 PET 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-016b-da3c-49c4-00001426fe00 
+on database directory memory:/Users/pickle_rick/Documents/Coding/www/clientlist/testdb with class loader java.net.URLClassLoader@236b4bfc 
 Loaded from file:/Users/pickle_rick/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_192-b12
 user.dir=/Users/pickle_rick/Documents/Coding/www/clientlist
 os.name=Mac OS X
 os.arch=x86_64
-os.version=10.14.4
+os.version=10.14.5
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
