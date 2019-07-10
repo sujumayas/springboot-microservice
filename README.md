@@ -66,8 +66,8 @@ No contributing allowed for this project.
 
 ## TODO BackEnd SpringBoot: 
 
-- *[...doing]* Microservicio desarrollado en JAVA Spring boot​ 
-    - API Rest documentada en Swagger​ (https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg)
+- *[DONE]* Microservicio desarrollado en JAVA Spring boot​ 
+    - *[DONE]* API Rest documentada en Swagger​ 
     - Deployado en AWS o algún CLOUD + código subido en GITHUB​
     
     - **[DONE]** Endpoint de Entrada POST /api/v1/clients/create 
@@ -98,3 +98,5 @@ No contributing allowed for this project.
         - La aplicación y sus endpoints​
         - Jenkins y el pipeline
 
+For swagger use: 
+(https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg)

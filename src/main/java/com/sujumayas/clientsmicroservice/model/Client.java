@@ -1,6 +1,7 @@
 package com.sujumayas.clientsmicroservice.model;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
@@ -31,7 +32,7 @@ public class Client {
     private String lastName;
     
     @ApiModelProperty(notes = "The Clients Age")
-    private String age; // Should be birthDate dependant, not user-editable, we are gonna asume users
+    private double age; // Should be birthDate dependant, not user-editable, we are gonna asume users
                         // are honest in their math
     
     @ApiModelProperty(notes = "The Clients Birth Date")    
@@ -47,14 +48,13 @@ public class Client {
     public Client(){ 
     }
 
-    /** Main Constructor */
-    public Client(String name, String lastName, String age, String birthDate) {
-        
+    /** Main Constructor (Just for testing or db seeds in the future) */
+    public Client(String name, String lastName, double age, String birthDate, String aproxDeathDate) {
         this.name = name;
         this.lastName = lastName;
-        this.age = age; // Should be birthDate dependant, not user-editable, we are gonna asume users are honest in their math
+        this.age = age;
         this.birthDate = birthDate;
-        this.aproxDeathDate = this.seTAproxDeathDate(birthDate, this.LIFE_EXPECTANCY);
+        this.aproxDeathDate = aproxDeathDate;
     }
 
     @Id
@@ -86,11 +86,11 @@ public class Client {
     }
 
     @Column(name = "age", nullable = true)
-    public String getAge() {
+    public double getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(double age) {
         this.age = age;
     }
 
@@ -111,33 +111,6 @@ public class Client {
     public void setAproxDeathDate(String aproxDeathDate){
         this.aproxDeathDate = aproxDeathDate;
     }
-
-    /**
-     * Set Aprox Death Date for this human. 
-     * 
-     * Every Human must die. Machines will prevail. 
-     * 
-     * TODO: Should refactor this to static class of Utils and call it from there. 
-     * 
-     * @param birthDateString
-     * @param yearsToLive
-     * @param age
-     * @return
-     */
-    private String seTAproxDeathDate(String birthDateString, Integer yearsToLive){
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu");
-        
-        LocalDate dateTime = LocalDate.parse(birthDateString, formatter);
-        
-        dateTime = dateTime.plusYears(yearsToLive);
-        
-        String aproxDeathDate = dateTime.format(formatter);
-        
-        return aproxDeathDate;
-        
-    }
-
-
 
     @Override
     public String toString(){

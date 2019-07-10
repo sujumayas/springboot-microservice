@@ -4,14 +4,17 @@ import com.sujumayas.clientsmicroservice.model.Client;
 import com.sujumayas.clientsmicroservice.repository.ClientRepository;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +31,10 @@ public class ClientService {
     private ClientRepository clientRepository;
 
     /** TODO : All this should be in DB later :D */
-    private Double clientsAverageAge;
-    private Number clientListSize = 2;
-    private List<String> clientAges;
-
+    private double clientsAverageAge;
+    private long clientListSize = 2L;
+    private double clientAges[];
+    private double deviation;
     
     /**
      * Get All Clients
@@ -67,7 +70,9 @@ public class ClientService {
      */
     public void createClient(Client client){
         String aproxDeathDate = seTAproxDeathDate(client.getBirthDate(), 75);
+        double age = calculateAge(client.getBirthDate());
         client.setAproxDeathDate(aproxDeathDate);
+        client.setAge(age);
         clientRepository.save(client);
     }
     
@@ -80,7 +85,9 @@ public class ClientService {
      */
     public void updateClient(Client client, Long id) {
         String aproxDeathDate = seTAproxDeathDate(client.getBirthDate(), 75);
+        double age = calculateAge(client.getBirthDate());
         client.setAproxDeathDate(aproxDeathDate);
+        client.setAge(age);
         clientRepository.save(client);
     }
     
@@ -115,13 +122,10 @@ public class ClientService {
      * 
      * Every Human must die. Machines will prevail.
      * 
-     * TODO: Should refactor this to static class of Utils and call it from there.
-     * TODO: (2) This is just doing the work. But Clients age should be checked every Year against currentTime, updated and then update the life xpectancy accordingly. 
-     * 
+     * TODO: Should refactor this to static class of Utils and call it from there. 
      * 
      * @param birthDateString
      * @param yearsToLive
-     * @param age
      * @return
      */
     private String seTAproxDeathDate(String birthDateString, Integer yearsToLive) {
@@ -144,9 +148,17 @@ public class ClientService {
      * 
      * @return
      */
-    public Number getClientsAverageAge(){
-        updateClientsAverageAge(); //TODO: Move this updateAverage to a CronJob or an EventCalled (onClientCreation) method
+    public double getClientsAverageAge(){
         return clientsAverageAge;
+    }
+
+    /**
+     * Get Clients Ages Standard Deviation
+     * 
+     * @return
+     */
+    public double getStandardDeviation(){
+        return deviation;
     }
     
     /**
@@ -160,12 +172,43 @@ public class ClientService {
      * 
      * @return
      */
-    public void updateClientsAverageAge(){
+    public void updateClientsAverageAgeAndStandardDeviation(){
+        //Set the list of clients from repo
         List<Client> clients = new ArrayList<>();
         clientRepository.findAll().forEach(clients::add);
-        clientListSize = clients.size(); 
-        double newAgeSum = clients.stream().mapToDouble(i -> Double.parseDouble(i.getAge())).sum(); /** TODO: Learn more about java 8 lamdas <3 */
-        clientsAverageAge = newAgeSum / (double) clientListSize;
+
+        //Get the size... so we can get the average age
+        clientListSize = clients.size();
+        double clientLSize = clientListSize; 
+        
+        //Stream through clients to get ages sum. 
+        double newAgeSum = clients.stream().mapToDouble(i -> i.getAge()).sum(); // TODO: Learn more about java 8 lamdas <3 
+        
+        // Change clientsAverage on this instance... maybe not a good idea
+        clientsAverageAge = newAgeSum / clientLSize;// TODO: we should be saving this in cache or db.
+        
+        // Mixing some responsabilities here...
+        
+        // Set a list of ages 
+        clientAges = clients.stream().mapToDouble(Client::getAge).toArray();
+
+        StandardDeviation a = new StandardDeviation();
+        deviation = a.evaluate(clientAges, clientsAverageAge);
+
+    }
+
+    /**
+     * Use String Date inserted by user to generate Age
+     * 
+     * @param birthDateString (String)
+     * @return long
+     */
+    public double calculateAge(String birthDateString) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+        LocalDate dateTime = LocalDate.parse(birthDateString, formatter);
+
+        LocalDate currentDate = LocalDate.now();
+        return (double) Period.between(dateTime, currentDate).getYears();
     }
 
 }
